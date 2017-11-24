@@ -1,0 +1,16 @@
+{
+    "name": "Uploadimage",
+    "alias": "uploadimage",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Uploadimage\\Providers\\UploadimageServiceProvider"
+    ],
+    "aliases": {},
+    "files": [
+        "start.php"
+    ],
+    "requires": []
+}
