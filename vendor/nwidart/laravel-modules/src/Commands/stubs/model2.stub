@@ -1,0 +1,10 @@
+<?php
+
+namespace $MODULE_NAMESPACE$\$STUDLY_NAME$\Entities;
+
+use Illuminate\Database\Eloquent\Model;
+
+class $LOWER_NAME$ extends Model
+{
+    protected $table = "$LOWER_NAME$";
+}
