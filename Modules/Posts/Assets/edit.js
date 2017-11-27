@@ -1,5 +1,5 @@
 /**
- * Created by Son Minh on 11/23/2017.
+ * Created by Son Minh on 11/27/2017.
  */
 $(document).ready(function () {
     CKEDITOR.replace('editor');
@@ -16,7 +16,7 @@ $(document).ready(function () {
         placeholder: "Bạn có thể thêm tags mới hoặc chọn",
     });
 });
-function themBaiViet(el,boxID) {
+function editPost(iMaBv,boxID) {
     var form = $("#" + boxID);
     var validator = $(form).kendoValidator().data("kendoValidator");
     if(!validator.validate()){
@@ -28,6 +28,7 @@ function themBaiViet(el,boxID) {
         return false;
     }
     var dataform = {};
+    dataform.iMaBaiViet=iMaBv;
     dataform.vNoiDungChiTiet = CKEDITOR.instances['editor'].getData();
     dataform.vHinhAnh=$("#vHinhAnh").val();
     dataform.vTieuDe=$("#vTieuDe").val();
@@ -39,7 +40,7 @@ function themBaiViet(el,boxID) {
     dataform.vTags = $("#vTags").val();;
     $.ajax({
         type: 'POST',
-        url: "/posts/savepost",
+        url: "/posts/updatepost",
         data: dataform,
         dataType: 'json',
         success: function (result) {

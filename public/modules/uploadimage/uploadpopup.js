@@ -69,7 +69,7 @@ function openUploadPopup(where) {
                             callback: function () {
                                 if(where == 'editor'){
                                     var img = "<img src='"+avatar+"'/>";
-                                    CKEDITOR.instances.editor.setData(img);
+                                    CKEDITOR.instances.editor.insertHtml(img);
                                 }else {
                                     $("#img_show_avatar").attr("src",avatar);
                                     $("#vHinhAnh").val(avatar);
@@ -87,81 +87,7 @@ function openUploadPopup(where) {
                     }
                 })
                 .on('shown.bs.modal', function (e) {
-                    $(".file-input-ajax").fileinput({
-                        uploadUrl: "/uploadimage/storeimage", // server upload action
-                        uploadAsync: true,
-                        maxFileCount: 5,
-                        initialPreview: [],
-                        fileActionSettings: {
-                            removeIcon: '<i class="icon-bin"></i>',
-                            removeClass: 'btn btn-link btn-xs btn-icon',
-                            uploadIcon: '<i class="icon-upload"></i>',
-                            uploadClass: 'btn btn-link btn-xs btn-icon',
-                            zoomIcon: '<i class="icon-zoomin3"></i>',
-                            zoomClass: 'btn btn-link btn-xs btn-icon',
-                            indicatorNew: '<i class="icon-file-plus text-slate"></i>',
-                            indicatorSuccess: '<i class="icon-checkmark3 file-icon-large text-success"></i>',
-                            indicatorError: '<i class="icon-cross2 text-danger"></i>',
-                            indicatorLoading: '<i class="icon-spinner2 spinner text-muted"></i>',
-                        },
-                        layoutTemplates: {
-                            icon: '<i class="icon-file-check"></i>',
-                            modal: modalTemplate
-                        },
-                        initialCaption: "No file selected",
-                        previewZoomButtonClasses: previewZoomButtonClasses,
-                        previewZoomButtonIcons: previewZoomButtonIcons
-                    });
-                    $('#imageposts').on('filebatchpreupload', function(event, data, previewId, index) {
-                        filesCount = $('#imageposts').fileinput('getFilesCount');
-                    });
-                    $('#imageposts').on('filebatchuploadcomplete', function(event, data, previewId, index) {
-                        $("#thuvienhinh").html("Thư Viện Hình <span class='label label-success position-left'>"+filesCount+"</span>");
-                        dataSource.read();
-                    });
-                    dataSource = new kendo.data.DataSource({
-                        transport: {
-                            read: {
-                                type: "POST",
-                                url: "/uploadimage/imagelist",
-                                processData: true,
-                                dataType: "json",
-                                cache: false
-                            }
-                        },
-                        pageSize: 9,
-                        schema : {
-                            type: "json",
-                            data: function(data){
-                                $.each(data.Data,function(i,o){
-                                    // data.Data[i].LNgayTao = data.Data[i].LNgayTao *1000;
-                                    // data.Data[i].LNgayCapNhat = data.Data[i].LNgayCapNhat *1000;
-                                });
-                                return data.Data;
-                            },
-                            total: "Total",
-                            errors: "Errors"
-                        }
-                    });
-
-                    $("#pager").kendoPager({
-                        dataSource: dataSource
-                    });
-
-                    $("#listView").kendoListView({
-                        dataSource: dataSource,
-                        pageable: true,
-                        selectable: "multiple",
-                        change: onChange,
-                        template: kendo.template($("#template").html())
-                    });
-                    function onChange() {
-                        var data = dataSource.view(),
-                            selected = $.map(this.select(), function(item) {
-                                return data[$(item).index()].vUrl;
-                            });
-                        avatar=selected.join(", ");
-                    }
+                    onShowPopup();
                 });
         },
         error: function (xhr, status, error) {
@@ -169,6 +95,83 @@ function openUploadPopup(where) {
         }
     });
     return false;
+}
+function onChange() {
+    var data = dataSource.view(),
+        selected = $.map(this.select(), function(item) {
+            return data[$(item).index()].vUrl;
+        });
+    avatar=selected.join(", ");
+}
+function onShowPopup() {
+    $(".file-input-ajax").fileinput({
+        uploadUrl: "/uploadimage/storeimage", // server upload action
+        uploadAsync: true,
+        maxFileCount: 5,
+        initialPreview: [],
+        fileActionSettings: {
+            removeIcon: '<i class="icon-bin"></i>',
+            removeClass: 'btn btn-link btn-xs btn-icon',
+            uploadIcon: '<i class="icon-upload"></i>',
+            uploadClass: 'btn btn-link btn-xs btn-icon',
+            zoomIcon: '<i class="icon-zoomin3"></i>',
+            zoomClass: 'btn btn-link btn-xs btn-icon',
+            indicatorNew: '<i class="icon-file-plus text-slate"></i>',
+            indicatorSuccess: '<i class="icon-checkmark3 file-icon-large text-success"></i>',
+            indicatorError: '<i class="icon-cross2 text-danger"></i>',
+            indicatorLoading: '<i class="icon-spinner2 spinner text-muted"></i>',
+        },
+        layoutTemplates: {
+            icon: '<i class="icon-file-check"></i>',
+            modal: modalTemplate
+        },
+        initialCaption: "No file selected",
+        previewZoomButtonClasses: previewZoomButtonClasses,
+        previewZoomButtonIcons: previewZoomButtonIcons
+    });
+    $('#imageposts').on('filebatchpreupload', function(event, data, previewId, index) {
+        filesCount = $('#imageposts').fileinput('getFilesCount');
+    });
+    $('#imageposts').on('filebatchuploadcomplete', function(event, data, previewId, index) {
+        $("#thuvienhinh").html("Thư Viện Hình <span class='label label-success position-left'>"+filesCount+"</span>");
+        dataSource.read();
+    });
+    dataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                type: "POST",
+                url: "/uploadimage/imagelist",
+                processData: true,
+                dataType: "json",
+                cache: false
+            }
+        },
+        pageSize: 9,
+        schema : {
+            type: "json",
+            data: function(data){
+                $.each(data.Data,function(i,o){
+                    // data.Data[i].LNgayTao = data.Data[i].LNgayTao *1000;
+                    // data.Data[i].LNgayCapNhat = data.Data[i].LNgayCapNhat *1000;
+                });
+                return data.Data;
+            },
+            total: "Total",
+            errors: "Errors"
+        }
+    });
+
+    $("#pager").kendoPager({
+        dataSource: dataSource
+    });
+
+    $("#listView").kendoListView({
+        dataSource: dataSource,
+        pageable: true,
+        selectable: "multiple",
+        change: onChange,
+        template: kendo.template($("#template").html())
+    });
 }
 function deleteImage(vimage) {
     event.preventDefault();

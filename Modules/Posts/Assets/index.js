@@ -19,8 +19,8 @@ $(document).ready(function () {
             schema: {
                 data: function(data){
                     $.each(data.Data,function(i,o){
-                        data.Data[i].LNgayTao = data.Data[i].LNgayTao *1000;
-                        data.Data[i].LNgayCapNhat = data.Data[i].LNgayCapNhat *1000;
+                        // data.Data[i].LNgayTao = data.Data[i].LNgayTao *1000;
+                        // data.Data[i].LNgayCapNhat = data.Data[i].LNgayCapNhat *1000;
                         data.Data[i].STT = (i+1);
                         if(data.Data[i].iTrangThai == '1'){
                             data.Data[i].sTrangThai = "<span class='label label-success'>Đã Đăng<span>";
@@ -88,18 +88,18 @@ $(document).ready(function () {
             encoded: false,
         },{
             title: 'Ngày Tạo',
-            field: "LNgayTao",
+            field: "created_at",
             headerAttributes: { style: "text-align:center;" },
             attributes: { style: "text-align:center; width:90px;", "class": "text-center nowrap" },
-            template: '#=kendo.toString(new Date(data.LNgayTao), "dd/MM/yyyy hh:mm" )#',
+            // template: '#=kendo.toString(new Date(data.LNgayTao), "dd/MM/yyyy hh:mm" )#',
             width: 90,
             encoded: false,
         },{
             title: 'Ngày Cập Nhật',
-            field: "LNgayCapNhat",
+            field: "updated_at",
             headerAttributes: { style: "text-align:center;" },
             attributes: { style: "text-align:center; width:90px;", "class": "text-center nowrap" },
-            template: '#=kendo.toString(new Date(data.LNgayCapNhat), "dd/MM/yyyy hh:mm" )#',
+            // template: '#=kendo.toString(new Date(data.LNgayCapNhat), "dd/MM/yyyy hh:mm" )#',
             width: 90,
             encoded: false,
         },{
@@ -113,8 +113,8 @@ $(document).ready(function () {
             title: 'Tác vụ',
             headerAttributes: { style: "text-align:center;" },
             attributes: { style: "text-align:center; width:90px;", "class": "text-center nowrap" },
-            template: '<span class="label label-primary heading-text" style="cursor:pointer" title="Sửa thông tin" onclick="OnShowPoppupInfo(\'#=data.vTieuDe#\')"><i class="icon-pen6"></i></span>'+
-            '<span class="label label-danger heading-text" style="cursor:pointer;margin-left: 8px" title="Xóa" onclick="OnShowPoppupInfo(\'#=data.username#\')"><i class="icon-x"></i></span>',
+            template: '<span class="label label-primary heading-text" style="cursor:pointer" title="Sửa thông tin" onclick="redirect(\'/posts/edit/#=data.iMaBaiViet#\')"><i class="icon-pen6"></i></span>'+
+            '<span class="label label-danger heading-text" style="cursor:pointer;margin-left: 8px" title="Xóa" onclick="OnDeletePost(\'#=data.iMaBaiViet#\')"><i class="icon-x"></i></span>',
             width: 90,
         }]
     });
@@ -172,38 +172,50 @@ function OnShowPoppupInfo(vTieuDe) {
     });
     return false;
 }
-function OnChangeInfo() {
-
-    $.ajax({
-        url: "/account/changeinfo",
-        method: "POST",
-        dataType: "json",
-        data: {
-            username: $("#fullname").val(),
-            group: $("#group").val()
+function OnDeletePost(iMaBaiViet) {
+    swal({
+            title: "Bạn có chắc muốn xóa?",
+            text: "OK để xác nhận!!",
+            type: "info",
+            confirmButtonColor: "#2196F3",
+            showLoaderOnConfirm: true,
+            showCancelButton: true,
+            closeOnConfirm: false,
         },
-        cache: false,
-        success: function (result) {
-            if (result.Status == '200') {
-                swal({
-                    title: "Thông Báo!",
-                    text: result.Message,
-                    confirmButtonColor: "#66BB6A",
-                    type: "success"
-                });
-
-            } else {
-                swal({
-                    title: "Thông Báo!",
-                    text: result.Message,
-                    confirmButtonColor: "#EF5350",
-                    type: "error"
-                });
-            }
-        },
-        error: function (xhr, status, error) {
-            alert(xhr.responseText);
-        }
-    });
-    return false;
+        function() {
+            $.ajax({
+                url: "/posts/deletepost",
+                method: "POST",
+                dataType: "json",
+                data: {
+                    iMaBaiViet: iMaBaiViet,
+                },
+                cache: false,
+                success: function (result) {
+                    if (result.Status == '200') {
+                        swal({
+                            title: "Thông Báo!",
+                            text: result.Message,
+                            confirmButtonColor: "#66BB6A",
+                            type: "success"
+                        });
+                        $("#List_grid").data("kendoGrid").dataSource.page(1);
+                    } else {
+                        swal({
+                            title: "Thông Báo!",
+                            text: result.Message,
+                            confirmButtonColor: "#EF5350",
+                            type: "error"
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert(xhr.responseText);
+                }
+            });
+            return false;
+        });
+}
+function redirect(Link) {
+    window.location.href = Link;
 }

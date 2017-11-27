@@ -15,12 +15,12 @@
     <link href="/template/css/components.css" rel="stylesheet" type="text/css">
     <link href="/template/css/colors.css" rel="stylesheet" type="text/css">
     <link href="/template/css/extras/animate.min.css" rel="stylesheet" type="text/css">
-    <link href="/template/kendoUI/styles/kendo.nova.min.css" rel="stylesheet" type="text/css">
-    {{--<link href="/template/kendoUI/styles/kendo.default.min.css" rel="stylesheet" type="text/css">--}}
-    <link href="/template/kendoUI/styles/kendo.common-fiori.min.css" rel="stylesheet" type="text/css">
-    <link href="/template/kendoUI/kendo.rtl.min.css" rel="stylesheet" type="text/css">
-    <link href="/template/kendoUI/kendo.bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link href="/template/kendoUI/kendo.bootstrap.mobile.min.css" rel="stylesheet" type="text/css">
+    <link href="/template/kendoUI/styles/kendo.material.min.css" rel="stylesheet" type="text/css">
+    <link href="/template/kendoUI/styles/kendo.fiori.mobile.min.css" rel="stylesheet" type="text/css">
+    <link href="/template/kendoUI/styles/kendo.common-bootstrap.min.css" rel="stylesheet" type="text/css">
+    {{--<link href="/template/kendoUI/styles/kendo.rtl.min.css" rel="stylesheet" type="text/css">--}}
+    {{--<link href="/template/kendoUI/kendo.bootstrap.min.css" rel="stylesheet" type="text/css">--}}
+
 
 
     <!-- /global stylesheets -->
@@ -43,6 +43,7 @@
     <script type="text/javascript" src="/template/js/plugins/ui/moment/moment.min.js"></script>
     <script type="text/javascript" src="/template/js/plugins/pickers/daterangepicker.js"></script>
 
+    <script type="text/javascript" src="/template/js/plugins/notifications/pnotify.min.js"></script>
     <script type="text/javascript" src="/template/js/plugins/notifications/bootbox.min.js"></script>
     <script type="text/javascript" src="/template/js/plugins/notifications/sweet_alert.min.js"></script>
     <script type="text/javascript" src="/template/js/plugins/forms/selects/select2.min.js"></script>
