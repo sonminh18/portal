@@ -51,6 +51,8 @@ class LoginController extends Controller
                 if(count($data['memberof']) > 0){
                     $memberof=explode(",",$this->customSearch('Team',$data['memberof']));
                     $member=explode("=",$memberof[0]);
+                    $deptnameof=explode(",",$this->customSearch('Dept',$data['memberof']));
+                    $deptname=explode("=",$deptnameof[0]);
                     $teamname=$member[1];
                 }else{
                     $teamname='No Group Name';
@@ -59,7 +61,7 @@ class LoginController extends Controller
                 session(['password' => $password]);
                 session(['fullname' => $data['displayname'][0]]);
                 session(['teamname' => $teamname]);
-                session(['deptname' => $cn]);
+                session(['deptname' => $cn ]);
                 return response()->json([
                     'Message' => 'Đăng nhập thành công!!!',
                     'Status' => '200',

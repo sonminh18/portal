@@ -1,16 +1,20 @@
 /**
  * Created by Son Minh on 11/27/2017.
  */
+// Color palette
+
 $(document).ready(function () {
+
     Ladda.bind('.btn-ladda-progress', {
         timeout: 500
     });
+
     $("#List_grid").kendoGrid({
         dataSource: {
             type: "json",
             transport: {
                 read: {
-                    url: "/posttype/ListJson",
+                    url: "/bookmarks/ListJson",
                     type: "POST",
                     dataType: "json",
                     data: additionalData,
@@ -25,10 +29,12 @@ $(document).ready(function () {
                         // data.Data[i].LNgayTao = data.Data[i].LNgayTao *1000;
                         // data.Data[i].LNgayCapNhat = data.Data[i].LNgayCapNhat *1000;
                         data.Data[i].STT = (i+1);
-                        if(data.Data[i].iTrangThai == '1'){
-                            data.Data[i].sTrangThai = "<span class='label label-success'>Đã Đăng<span>";
+                        data.Data[i].sBookColor = "<span class='label' style='background-color: "+data.Data[i].vBookColor+"'>"+data.Data[i].vBookColor+"<span>";
+                        data.Data[i].sBookIcon = "<span class='label' style='background-color: "+data.Data[i].vBookColor+"'><i class='"+data.Data[i].vBookIcon+"'></i><span>";
+                        if(data.Data[i].iShowAll == '1'){
+                            data.Data[i].iShowAll = "<span class='label label-success'>Mọi người<span>";
                         }else{
-                            data.Data[i].sTrangThai = "<span class='label label-danger'>Lưu Nháp<span>";
+                            data.Data[i].iShowAll = "<span class='label label-danger'>Chỉ định<span>";
                         }
                         // if(data.Data[i].disabled == '0'){
                         //     data.Data[i].sdisabled = '<i class="icon-user-check text-primary"></i>';
@@ -77,16 +83,35 @@ $(document).ready(function () {
             template: '<span style="text-align:center;display: block;">#=data.STT#<span>',
             width: 50,
         }, {
-            field: "vTenLoaiBaiViet",
-            title: 'Danh Mục Loại Post',
-            headerAttributes: { style: "text-align:left;" },
-            width: 320,
-            encoded: false
+            field: "vBookName",
+            title: 'Tên BookMarks',
+            headerAttributes: { style: "text-align:center;" },
+            width: 90,
         }, {
             title: 'Liên Kết',
-            field: "vLienKet",
-            headerAttributes: { style: "text-align:left;" },
-            attributes: { style: "text-align:left; width:90px;", "class": "text-center nowrap" },
+            field: "vBookLink",
+            headerAttributes: { style: "text-align:center;" },
+            attributes: { style: "text-align:center; width:90px;", "class": "text-center nowrap" },
+            width: 120,
+        },{
+            title: 'Màu',
+            field: "sBookColor",
+            headerAttributes: { style: "text-align:center;" },
+            attributes: { style: "text-align:center; width:90px;", "class": "text-center nowrap" },
+            width: 90,
+            encoded: false,
+        },{
+            title: 'Icon',
+            field: "sBookIcon",
+            headerAttributes: { style: "text-align:center;" },
+            attributes: { style: "text-align:center; width:90px;", "class": "text-center nowrap" },
+            width: 90,
+            encoded: false,
+        },{
+            title: 'Hiển thị',
+            field: "iShowAll",
+            headerAttributes: { style: "text-align:center;" },
+            attributes: { style: "text-align:center; width:90px;", "class": "text-center nowrap" },
             width: 90,
             encoded: false,
         },{
@@ -96,7 +121,7 @@ $(document).ready(function () {
             attributes: { style: "text-align:center; width:90px;", "class": "text-center nowrap" },
             // template: '#=kendo.toString(new Date(data.LNgayTao), "dd/MM/yyyy hh:mm" )#',
             width: 90,
-            encoded: false,
+
         },{
             title: 'Ngày Cập Nhật',
             field: "updated_at",
@@ -104,7 +129,7 @@ $(document).ready(function () {
             attributes: { style: "text-align:center; width:90px;", "class": "text-center nowrap" },
             // template: '#=kendo.toString(new Date(data.LNgayCapNhat), "dd/MM/yyyy hh:mm" )#',
             width: 90,
-            encoded: false,
+
         },{
             title: 'Tác vụ',
             headerAttributes: { style: "text-align:center;" },

@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Shortcut\Database\Seeders;
+namespace Modules\Bookmarks\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
-class ShortcutDatabaseSeeder extends Seeder
+class BookmarksDatabaseSeeder extends Seeder
 {
     /**
      * Run the database seeds.

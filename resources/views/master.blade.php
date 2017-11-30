@@ -10,7 +10,11 @@
     <!-- Global stylesheets -->
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet" type="text/css">
     <link href="/template/css/icons/icomoon/styles.css" rel="stylesheet" type="text/css">
-    <link href="/template/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/template/css/icons/fontawesome/styles.min.css" rel="stylesheet" type="text/css">
+    {{--<link href="/template/css/bootstrap.css" rel="stylesheet" type="text/css">--}}
+    <link href="/template/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <!-- Bootstrap-Iconpicker -->
+    <link href="/template/css/bootstrap-iconpicker.min.css" rel="stylesheet" type="text/css">
     <link href="/template/css/core.css" rel="stylesheet" type="text/css">
     <link href="/template/css/components.css" rel="stylesheet" type="text/css">
     <link href="/template/css/colors.css" rel="stylesheet" type="text/css">
@@ -29,6 +33,11 @@
     <script type="text/javascript" src="/template/js/plugins/loaders/pace.min.js"></script>
     <script type="text/javascript" src="/template/js/core/libraries/jquery.min.js"></script>
     <script type="text/javascript" src="/template/js/core/libraries/bootstrap.min.js"></script>
+    <!-- Bootstrap-Iconpicker Iconset -->
+    <script type="text/javascript" src="/template/js/core/libraries/bootstrap-iconpicker-iconset-all.min.js"></script>
+    <!-- Bootstrap-Iconpicker -->
+    <script type="text/javascript" src="/template/js/core/libraries/bootstrap-iconpicker.min.js"></script>
+
     <script type="text/javascript" src="/template/js/plugins/loaders/blockui.min.js"></script>
     <script type="text/javascript" src="/template/js/plugins/ui/nicescroll.min.js"></script>
     <script type="text/javascript" src="/template/js/plugins/ui/drilldown.js"></script>
@@ -64,6 +73,7 @@
 
     {{--<script type="text/javascript" src="/template/js/pages/layout_navbar_main_hideable.js"></script>--}}
     {{--<script type="text/javascript" src="/template/js/pages/layout_navbar_secondary_fixed.js"></script>--}}
+    <script type="text/javascript" src="/template/js/plugins/pickers/color/spectrum.js"></script>
     <script type="text/javascript" src="/template/js/plugins/uploaders/fileinput/plugins/purify.min.js"></script>
     <script type="text/javascript" src="/template/js/plugins/uploaders/fileinput/plugins/sortable.min.js"></script>
     <script type="text/javascript" src="/template/js/plugins/uploaders/fileinput/fileinput.min.js"></script>

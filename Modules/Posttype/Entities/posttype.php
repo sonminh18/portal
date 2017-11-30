@@ -8,7 +8,7 @@ use Illuminate\Pagination\Paginator;
 class posttype extends Model
 {
     protected $table = "loaibaiviet";
-    protected $guarded = ['vHinhAnh','vMoTa','iTrangThai','iShowTrangChu','iShowLoaiCon','vMoTa'];
+    protected $fillable  = ['vTenLoaiBaiViet','iCapCha','vLienKet','vNguoiTao','iDelete','vNguoiCapNhat'];
     public function GetListAll($key,$pageindex,$pageSize){
         Paginator::currentPageResolver(function () use ($pageindex) {
             return $pageindex;

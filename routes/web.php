@@ -23,3 +23,7 @@ Route::get('/setup',function (){
     \Illuminate\Support\Facades\Artisan::call('dump-autoload');
     dd(\Illuminate\Support\Facades\Artisan::output());
 });
+Route::get('/clearsesssion',function (){
+    session()->flush();
+    session()->regenerate();
+});

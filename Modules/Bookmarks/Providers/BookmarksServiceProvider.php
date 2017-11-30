@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Shortcut\Providers;
+namespace Modules\Bookmarks\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
-class ShortcutServiceProvider extends ServiceProvider
+class BookmarksServiceProvider extends ServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
@@ -45,10 +45,10 @@ class ShortcutServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('shortcut.php'),
+            __DIR__.'/../Config/config.php' => config_path('bookmarks.php'),
         ], 'config');
         $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'shortcut'
+            __DIR__.'/../Config/config.php', 'bookmarks'
         );
     }
 
@@ -59,7 +59,7 @@ class ShortcutServiceProvider extends ServiceProvider
      */
     public function registerViews()
     {
-        $viewPath = resource_path('views/modules/shortcut');
+        $viewPath = resource_path('views/modules/bookmarks');
 
         $sourcePath = __DIR__.'/../Resources/views';
 
@@ -68,8 +68,8 @@ class ShortcutServiceProvider extends ServiceProvider
         ]);
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/shortcut';
-        }, \Config::get('view.paths')), [$sourcePath]), 'shortcut');
+            return $path . '/modules/bookmarks';
+        }, \Config::get('view.paths')), [$sourcePath]), 'bookmarks');
     }
 
     /**
@@ -79,12 +79,12 @@ class ShortcutServiceProvider extends ServiceProvider
      */
     public function registerTranslations()
     {
-        $langPath = resource_path('lang/modules/shortcut');
+        $langPath = resource_path('lang/modules/bookmarks');
 
         if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, 'shortcut');
+            $this->loadTranslationsFrom($langPath, 'bookmarks');
         } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../', 'shortcut');
+            $this->loadTranslationsFrom(__DIR__ .'/../', 'bookmarks');
         }
     }
 
