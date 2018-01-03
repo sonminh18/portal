@@ -9,32 +9,37 @@ namespace App\Http\Middleware;
 use Modules\Permission\Http\Controllers\PermissionChecker;
 use Closure;
 use session;
+use App\helper;
 
 class CheckUserPermission
 {
 
     public function handle($request, Closure $next)
     {
-
+        $helper=new helper();
         $action = explode("/",$request->route()->uri);
         if(count($action)>1){
             $PerChecker=new PermissionChecker();
-            $OU=session('deptname');
-            $ArrModule=$PerChecker->getAllModulePermissions($OU);
-            $ModuleName=$action[0];
-            $FeatName=$action[1];
-            $result=array();
-            foreach ($ArrModule as $k=>$v){
-                if(stripos($v->vModLink, $OU) !== false){
-                    array_push($result,$v);
-                }
-            }
-            if(count($result) == 0){
-//                return redirect('/');
-                return $next($request);
+            $ArrPermission=$PerChecker->GetPermission();
+            $ModuleLink=$action[0];
+            $FeatLink=$action[1];
+            $IsExist=$helper->SearchArray("$ModuleLink",'ModLink',$ArrPermission);
+            if( $IsExist == null){
+                return redirect('/');
             }
             else{
-                return $next($request);
+                $result=0;
+                foreach ($ArrPermission as $Feat){
+                    if($helper->SearchArray("$FeatLink",'vFeatLink',$Feat['Feature']) == null){
+                        $result++;
+                    }
+                }
+                if($result!=0){
+                    return $next($request);
+                }
+                else{
+                    return redirect('/');
+                }
             }
         }
         else{

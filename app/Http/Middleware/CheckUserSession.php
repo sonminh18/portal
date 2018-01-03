@@ -6,7 +6,7 @@
  * Time: 9:01 AM
  */
 namespace App\Http\Middleware;
-
+use Illuminate\Support\Facades\Auth;
 use Closure;
 use session;
 
@@ -20,6 +20,7 @@ class CheckUserSession
             // user value cannot be found in session
             return redirect('/');
         }
+
 
         return $next($request);
     }

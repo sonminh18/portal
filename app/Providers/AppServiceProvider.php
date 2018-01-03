@@ -34,32 +34,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function createMenu()
     {
-        $OU=session('deptname');
         $Permission=new permission;
-        $AllModule=$Permission->getAllModulePermissions($OU);
-        $Result=array();
-        $i=0;
-        foreach ($AllModule as $value){
-            if($value->iCheckPerFeat == 1){
-                $Feature=$Permission->getFeatureWithCheckPerFeat($value->iModID);
-                if(count($Feature)>0){
-                    $Result[$i]['ModName']=$value->vModName;
-                    $Result[$i]['ModLink']=$value->vModLink;
-                    $Result[$i]['ModIcon']=$value->vModIcon;
-                    $Result[$i]['Feature']=$Feature;
-                }
-            }
-            else{
-                $Feature=$Permission->getAllFeature($value->iModID);
-                if(count($Feature)>0){
-                    $Result[$i]['ModName']=$value->vModName;
-                    $Result[$i]['ModLink']=$value->vModLink;
-                    $Result[$i]['ModIcon']=$value->vModIcon;
-                    $Result[$i]['Feature']=$Feature;
-                }
-            }
-            $i=$i+1;
-        }
+        $Result=$Permission->GetPermission();
         return $Result;
     }
     /**

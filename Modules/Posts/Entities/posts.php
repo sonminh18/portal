@@ -13,7 +13,7 @@ class posts extends Model
         Paginator::currentPageResolver(function () use ($pageindex) {
             return $pageindex;
         });
-        return $this->where('iDelete','=',0)->where('vTieuDe','like','%'.$key.'%')->paginate($pageSize);
+        return $this->where('vTieuDe','like','%'.$key.'%')->paginate($pageSize);
     }
     public function GetPostById($id){
         return $this->where('iMaBaiViet','=',$id)->first();

@@ -6,17 +6,60 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Dashboard\Entities\userslist;
+use Modules\Bookmarks\Entities\bookmarkpermission;
+use Modules\Bookmarks\Entities\bookmarks;
 use Modules\Permission\Http\Controllers\PermissionChecker as permission;
+use app\helper;
+use Modules\Account\Adldap\adldapmodel;
 
 class DashboardController extends Controller
 {
+    private $helper;
+    private $ldap;
+    private $bookmark_per;
+    private $bookmark;
+    public function __construct()
+    {
+        $this->helper=new helper();
+        $this->ldap=new adldapmodel();
+        $this->bookmark=new bookmarks();
+        $this->bookmark_per=new bookmarkpermission();
+    }
     /**
      * Display a listing of the resource.
      * @return Response
      */
     public function index()
     {
-        return view('dashboard::index');
+        $Group=$this->ldap->getGroupInOU('Users');
+        $TeamName=array();
+        foreach ($Group as $item){
+            if(strpos($item, 'Team')){
+                array_push($TeamName,$item);
+            }
+        }
+        $role=session('teamname');
+        $dataBookMark= array();
+        $i=0;
+        foreach ($TeamName as $item){
+            $data=$this->bookmark->GetBookMarkByTeamName($item);
+            $dataBookMark[$i]['TeamName']=$item;
+            $dataBookMark[$i]['bookmark']=array();
+            foreach ($data as $value){
+                if($value->iShowAll==1){
+                    array_push($dataBookMark[$i]['bookmark'],$value);
+                }
+                else{
+                    $CheckPermission=$this->bookmark_per->GetBookMarkPermissionByRole($value->iBookID,$role);
+                    if($CheckPermission > 0)
+                    {
+                        array_push($dataBookMark[$i]['bookmark'],$value);
+                    }
+                }
+            }
+            $i++;
+        }
+        return view('dashboard::index',compact('dataBookMark'));
     }
     public function profile()
     {

@@ -1,8 +1,12 @@
 <?php
 
-Route::group(['middleware' => 'web', 'prefix' => 'bookmarks', 'namespace' => 'Modules\Bookmarks\Http\Controllers'], function()
+Route::group(['middleware' => 'usersession', 'prefix' => 'bookmarks', 'namespace' => 'Modules\Bookmarks\Http\Controllers'], function()
 {
-    Route::get('/', 'BookmarksController@index');
+    Route::get('/index', 'BookmarksController@index');
     Route::post('/ListJson', 'BookmarksController@ListJson');
-    Route::get('/createbookmarks', 'BookmarksController@create');
+    Route::get('/create', 'BookmarksController@create');
+    Route::post('/save', 'BookmarksController@save');
+    Route::post('/delete', 'BookmarksController@delete');
+    Route::get('/edit/{id}', 'BookmarksController@edit');
+    Route::post('/update', 'BookmarksController@update');
 });

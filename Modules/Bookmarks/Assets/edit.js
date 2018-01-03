@@ -1,5 +1,5 @@
 /**
- * Created by Son Minh on 11/30/2017.
+ * Created by Son Minh on 12/5/2017.
  */
 var icon='';
 $(document).ready(function () {
@@ -24,28 +24,12 @@ $(document).ready(function () {
     $('.select-search').select2({
         dropdownCssClass: 'border-primary',
         containerCssClass: 'border-primary text-primary-700 select-xs',
-        placeholder: "Vui lòng chọn...",
-    });
-    $('#target').iconpicker({
-        align: 'center', // Only in div tag
-        arrowClass: 'btn-danger',
-        arrowPrevIconClass: 'glyphicon glyphicon-chevron-left',
-        arrowNextIconClass: 'glyphicon glyphicon-chevron-right',
-        cols: 10,
-        footer: true,
-        header: true,
-        icon: 'fa-bomb',
-        iconset: 'fontawesome',
-        labelHeader: '{0} of {1} pages',
-        labelFooter: '{0} - {1} of {2} icons',
-        placement: 'bottom', // Only in button tag
-        rows: 5,
-        search: true,
-        searchText: 'Search',
-        selectedClass: 'btn-success',
-        unselectedClass: ''
+        placeholder: "Không có",
     });
 
+    if($('#iShowAll').val() === '1'){
+        $('#iGroup').attr("disabled", true);
+    }
 });
 $('#target').on('change', function(e) {
     // console.log( e.icon );
@@ -60,7 +44,7 @@ $('#iShowAll').on('select2:select', function (e) {
         $('#iGroup').attr("disabled", false);
     }
 });
-function OnSave(boxID) {
+function OnUpdate(boxID) {
     event.preventDefault();
     var form = $("#" + boxID);
     var validator = $(form).kendoValidator().data("kendoValidator");
@@ -73,7 +57,7 @@ function OnSave(boxID) {
         return false;
     }
     $.ajax({
-        url: "/bookmarks/save",
+        url: "/bookmarks/update",
         method: "POST",
         dataType: "json",
         data: {
@@ -84,6 +68,7 @@ function OnSave(boxID) {
             iShowAll: $("#iShowAll").val(),
             iGroup: $("#iGroup").val(),
             bookmarkTeam: $("#bookmarksTeam").val(),
+            id: $("#bookmarksid").val(),
         },
         cache: false,
         success: function (result) {

@@ -20,7 +20,7 @@
                         <div class="col-lg-8">
                             <div class="panel panel-flat">
                                 <div class="panel-heading">
-                                    <h6 class="panel-title">Daily financials<a class="heading-elements-toggle"><i class="icon-more"></i></a></h6>
+                                    <h6 class="panel-title">Xin chào, {{session('fullname')}}<a class="heading-elements-toggle"><i class="icon-more"></i></a></h6>
                                     <div class="heading-elements">
                                         <form class="heading-form" action="#">
                                             <div class="form-group">
@@ -33,74 +33,41 @@
                                 <div class="panel-body">
                                     <div class="tabbable nav-tabs-vertical nav-tabs-left">
                                         <ul class="nav nav-tabs nav-tabs-highlight">
-                                            <li class="active"><a href="#left-tab1" data-toggle="tab"> Support Team</a></li>
-                                            <li><a href="#left-tab2" data-toggle="tab"> Voip Team</a></li>
-                                            <li><a href="#left-tab2" data-toggle="tab"> Network Team</a></li>
-                                            <li><a href="#left-tab2" data-toggle="tab"> Elect Team</a></li>
-                                            <li><a href="#left-tab2" data-toggle="tab"> System Team</a></li>
-                                            <li><a href="#left-tab2" data-toggle="tab"> Dev Team</a></li>
+                                            <?php $i=1;?>
+                                            @foreach($dataBookMark as $item)
+                                                @if($i==1)
+                                                    <li class="active"><a href="#left-tab{{$i}}" data-toggle="tab"> {{$item['TeamName']}}</a></li>
+                                                @else
+                                                    <li><a href="#left-tab{{$i}}" data-toggle="tab"> {{$item['TeamName']}}</a></li>
+                                                @endif
+                                                <?php $i++;?>
+                                            @endforeach
                                         </ul>
 
                                         <div class="tab-content">
-                                            <div class="tab-pane active has-padding" id="left-tab1">
-                                                <div class="row">
-                                                    <div class="col-xs-3 margin-bottom">
-                                                        <button type="button" class="btn bg-blue btn-block btn-float btn-float-lg legitRipple"><i class="icon-cog3"></i> <span>Settings</span></button>
-                                                    </div>
-                                                    <div class="col-xs-3 margin-bottom">
-                                                        <button type="button" class="btn bg-blue btn-block btn-float btn-float-lg legitRipple"><i class="icon-cog3"></i> <span>Settings</span></button>
-                                                    </div>
-                                                    <div class="col-xs-3 margin-bottom">
-                                                        <button type="button" class="btn bg-blue btn-block btn-float btn-float-lg legitRipple"><i class="icon-cog3"></i> <span>Settings</span></button>
-                                                    </div>
-                                                    <div class="col-xs-3 margin-bottom">
-                                                        <button type="button" class="btn bg-blue btn-block btn-float btn-float-lg legitRipple"><i class="icon-cog3"></i> <span>Settings</span></button>
-                                                    </div>
-                                                    <div class="col-xs-3 margin-bottom">
-                                                        <button type="button" class="btn bg-blue btn-block btn-float btn-float-lg legitRipple"><i class="icon-cog3"></i> <span>Settings</span></button>
-                                                    </div>
-                                                    <div class="col-xs-3 margin-bottom">
-                                                        <button type="button" class="btn bg-blue btn-block btn-float btn-float-lg legitRipple"><i class="icon-cog3"></i> <span>Settings</span></button>
-                                                    </div>
-                                                    <div class="col-xs-3 margin-bottom">
-                                                        <button type="button" class="btn bg-blue btn-block btn-float btn-float-lg legitRipple"><i class="icon-cog3"></i> <span>Settings</span></button>
-                                                    </div>
+                                            <?php $j=1;?>
+                                            @foreach($dataBookMark as $item)
+                                                <?php if($j==1){$class="active";}else{$class="";}?>
+                                                    <div class="tab-pane {{$class}} has-padding" id="left-tab{{$j}}">
+                                                        <div class="row">
+                                                            @if(count($item['bookmark'])>0)
+                                                                @foreach($item['bookmark'] as $bookmark)
+                                                                    <div class="col-xs-3 margin-bottom">
+                                                                        <a type="button" class="btn btn-block btn-float btn-float-lg legitRipple" style="background-color: {{$bookmark['vBookColor']}};color: white" href="{{$bookmark['vBookLink']}}" target="_blank">
+                                                                            <i class="fa {{$bookmark['vBookIcon']}}"></i> <span>{{$bookmark['vBookName']}}</span>
+                                                                        </a>
+                                                                    </div>
+                                                                @endforeach
+                                                            @else
+                                                                <div>Chờ cập nhật ...</div>
+                                                            @endif
+                                                        </div>
 
-                                                </div>
-
-                                            </div>
-
-                                            <div class="tab-pane has-padding" id="left-tab2">
-                                                <div class="row">
-                                                    <div class="col-xs-3 margin-bottom">
-                                                        <button type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg legitRipple"><i class="icon-archive"></i> <span>Archive</span></button>
                                                     </div>
-                                                    <div class="col-xs-3 margin-bottom">
-                                                        <button type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg legitRipple"><i class="icon-archive"></i> <span>Archive</span></button>
-                                                    </div>
-                                                    <div class="col-xs-3 margin-bottom">
-                                                        <button type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg legitRipple"><i class="icon-archive"></i> <span>Archive</span></button>
-                                                    </div>
-                                                    <div class="col-xs-3 margin-bottom">
-                                                        <button type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg legitRipple"><i class="icon-archive"></i> <span>Archive</span></button>
-                                                    </div>
-                                                    <div class="col-xs-3 margin-bottom">
-                                                        <button type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg legitRipple"><i class="icon-archive"></i> <span>Archive</span></button>
-                                                    </div>
-                                                    <div class="col-xs-3 margin-bottom">
-                                                        <button type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg legitRipple"><i class="icon-archive"></i> <span>Archive</span></button>
-                                                    </div>
-                                                    <div class="col-xs-3 margin-bottom">
-                                                        <button type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg legitRipple"><i class="icon-archive"></i> <span>Archive</span></button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                                <?php $j++;?>
+                                            @endforeach
                                         </div>
                                     </div>
-                                                        {{----}}
-                                                        {{--<li><button type="button" class="btn bg-blue btn-block btn-float btn-float-lg legitRipple"><i class="icon-cog3"></i> <span>Settings</span></button></li>--}}
-                                                        {{--<li><button type="button" class="btn bg-purple-300 btn-block btn-float btn-float-lg legitRipple"><i class="icon-archive"></i> <span>Archive</span></button></li>--}}
-                                                        {{--<li><button type="button" class="btn bg-teal-400 btn-block btn-float btn-float-lg legitRipple"><i class="icon-file-plus"></i> <span>New invoice</span></button></li>--}}
                                 </div>
                             </div>
                         </div>

@@ -1,11 +1,12 @@
 <?php
 
 namespace Modules\Permission\Http\Controllers;
-
+use Modules\Permission\Http\Controllers\PermissionChecker as permission;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Adldap\AdldapInterface;
+use App\helper;
 
 class PermissionController extends Controller
 {
@@ -20,51 +21,9 @@ class PermissionController extends Controller
      * @return Response
      */
 
-    public function index()
+    public function index($request)
     {
 
-    }
-
-
-    public function getorganizationalUnit($OU){
-        $dn=$this->adldap->search()->ous()->find($OU)->getDn();
-        $data=$this->adldap->search()->setDn($dn)->where('objectClass', '=', 'organizationalUnit')->get();
-        $result=array();
-        foreach ($data as $item){
-            $GroupName=$item['ou'][0];
-            array_push($result,$GroupName);
-        }
-        return $result;
-    }
-    public function getGroupInOU($OU){
-        $dn=$this->adldap->search()->ous()->find($OU)->getDn();
-        $data=$this->adldap->search()->setDn($dn)->where('objectClass', '=', 'group')->get();
-        $result=array();
-        foreach ($data as $item){
-            $GroupName=$item['cn'][0];
-            array_push($result,$GroupName);
-        }
-        return $result;
-    }
-    public function getMemberInOU($OU){
-        $dn=$this->adldap->search()->ous()->find($OU)->getDn();
-        $data=$this->adldap->search()->setDn($dn)->where('objectClass', '=', 'person')->get();
-        $result=array();
-        foreach ($data as $item){
-            $GroupName=$item['cn'][0];
-            array_push($result,$GroupName);
-        }
-        return $result;
-    }
-    public function getMemberInGroup($GroupName){
-        $data = $this->adldap->search()->groups()->find($GroupName);
-        $result=array();
-        foreach ($data['member'] as $value){
-            $CN=explode(',',$value);
-            $MemberName=explode('=',$CN[0]);
-            array_push($result,$MemberName[1]);
-        }
-        return $result;
     }
 
     /**

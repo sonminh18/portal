@@ -18,4 +18,17 @@ class bookmarks extends Model
     public function GetPostTypeById($id){
         return $this->where('iBookID','=',$id)->first();
     }
+    public function bookmarkpermission(){
+        return $this->hasMany('Modules\Bookmarks\Entities\bookmarkpermission','iBookID');
+    }
+    public function deleteBookMark($id)
+    {
+        return $this->where('iBookID','=',$id)->delete();
+    }
+    public function GetBookMarkById($id){
+        return $this->where('iShowAll','=',0)->where('iBookID','=',$id)->get();
+    }
+    public function GetBookMarkByTeamName($teamname){
+        return $this->where('vOwner','=',$teamname)->get();
+    }
 }

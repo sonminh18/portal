@@ -1,7 +1,7 @@
 /**
  * Created by Son Minh on 11/30/2017.
  */
-
+var icon='';
 $(document).ready(function () {
     var demoPalette = [
         ["#000","#444","#666","#999","#ccc","#eee","#f3f3f3","#fff"],
@@ -24,22 +24,22 @@ $(document).ready(function () {
     $('.select-search').select2({
         dropdownCssClass: 'border-primary',
         containerCssClass: 'border-primary text-primary-700 select-xs',
-        placeholder: "Không có",
+        placeholder: "Vui lòng chọn...",
     });
     $('#target').iconpicker({
-        align: 'left', // Only in div tag
+        align: 'center', // Only in div tag
         arrowClass: 'btn-danger',
         arrowPrevIconClass: 'glyphicon glyphicon-chevron-left',
         arrowNextIconClass: 'glyphicon glyphicon-chevron-right',
-        cols: 7,
+        cols: 10,
         footer: true,
         header: true,
         icon: 'fa-bomb',
         iconset: 'fontawesome',
-        labelHeader: '{0} - {1} Trang',
-        labelFooter: '{0} - {1} tổng {2} icons',
+        labelHeader: '{0} of {1} pages',
+        labelFooter: '{0} - {1} of {2} icons',
         placement: 'bottom', // Only in button tag
-        rows: 4,
+        rows: 5,
         search: true,
         searchText: 'Search',
         selectedClass: 'btn-success',
@@ -48,7 +48,8 @@ $(document).ready(function () {
 
 });
 $('#target').on('change', function(e) {
-    console.log( e.icon );
+    // console.log( e.icon );
+    icon=e.icon;
 });
 $('#iShowAll').on('select2:select', function (e) {
     var data = e.params.data;
@@ -59,3 +60,55 @@ $('#iShowAll').on('select2:select', function (e) {
         $('#iGroup').attr("disabled", false);
     }
 });
+function OnSave(boxID) {
+    event.preventDefault();
+    var form = $("#" + boxID);
+    var validator = $(form).kendoValidator().data("kendoValidator");
+    if(!validator.validate()){
+        new PNotify({
+            title: 'Thông Báo...',
+            text: 'Dữ liệu không đủ!',
+            addclass: 'bg-warning'
+        });
+        return false;
+    }
+    $.ajax({
+        url: "/bookmarks/save",
+        method: "POST",
+        dataType: "json",
+        data: {
+            bookmarksname: $("#bookmarksname").val(),
+            bookmarkslink: $("#bookmarkslink").val(),
+            color: $("#color").spectrum('get').toHexString(),
+            icon: icon,
+            iShowAll: $("#iShowAll").val(),
+            iGroup: $("#iGroup").val(),
+            bookmarkTeam: $("#bookmarksTeam").val(),
+        },
+        cache: false,
+        success: function (result) {
+            if (result.Status == '200') {
+                swal({
+                    title: "Thông Báo!",
+                    text: result.Message,
+                    confirmButtonColor: "#66BB6A",
+                    type: "success"
+                },function () {
+                    location.reload();
+                });
+
+            } else {
+                swal({
+                    title: "Thông Báo!",
+                    text: result.Message,
+                    confirmButtonColor: "#EF5350",
+                    type: "error"
+                });
+            }
+        },
+        error: function (xhr, status, error) {
+            alert(xhr.responseText);
+        }
+    });
+    return false;
+}

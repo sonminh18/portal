@@ -134,8 +134,8 @@ $(document).ready(function () {
             title: 'Tác vụ',
             headerAttributes: { style: "text-align:center;" },
             attributes: { style: "text-align:center; width:90px;", "class": "text-center nowrap" },
-            template: '<span class="label label-primary heading-text" style="cursor:pointer" title="Sửa thông tin" onclick="OnShowPoppupEdit(\'#=data.iMaLoaiBaiViet#\')"><i class="icon-pen6"></i></span>'+
-            '<span class="label label-danger heading-text" style="cursor:pointer;margin-left: 8px" title="Xóa" onclick="OnDeletePostType(\'#=data.iMaLoaiBaiViet#\')"><i class="icon-x"></i></span>',
+            template: '<span class="label label-primary heading-text" style="cursor:pointer" title="Sửa thông tin" onclick="redirect(\'edit/#=data.iBookID#\')"><i class="icon-pen6"></i></span>'+
+            '<span class="label label-danger heading-text" style="cursor:pointer;margin-left: 8px" title="Xóa" onclick="OnDelete(\'#=data.iBookID#\')"><i class="icon-x"></i></span>',
             width: 90,
         }]
     });
@@ -229,7 +229,7 @@ function OnShowPoppupEdit(ID) {
     });
     return false;
 }
-function OnDeletePostType(iMaLoaiBaiViet) {
+function OnDelete(ID) {
     swal({
             title: "Bạn có chắc muốn xóa?",
             text: "OK để xác nhận!!",
@@ -241,11 +241,11 @@ function OnDeletePostType(iMaLoaiBaiViet) {
         },
         function() {
             $.ajax({
-                url: "/posttype/delete",
+                url: "/bookmarks/delete",
                 method: "POST",
                 dataType: "json",
                 data: {
-                    iMaLoaiBaiViet: iMaLoaiBaiViet,
+                    iBookID: ID,
                 },
                 cache: false,
                 success: function (result) {
@@ -361,4 +361,7 @@ function OnSavePostType(boxID) {
         }
     });
     return false;
+}
+function redirect(link) {
+    window.location.replace(link);
 }
